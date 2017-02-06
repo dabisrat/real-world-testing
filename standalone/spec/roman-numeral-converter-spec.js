@@ -28,7 +28,5 @@ describe('romanConverter', function () {
     expect(romanConverter(9)).toEqual('IX')
     expect(romanConverter(49)).toEqual('XLIX')
     expect(romanConverter(999)).toEqual('CMXCIX')
-  
-
   })
 })

@@ -2,8 +2,6 @@
   "name": "node-tdd-example",
   "version": "0.0.1",
   "description": "An example project for unit and integration testing under node with jasmine",
-  "scripts": {
-  },
   "main": "main.js",
   "author": "",
   "scripts": {
