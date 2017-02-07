@@ -2,11 +2,13 @@ describe('generateProblem', () => {
     let generateRandomNum, generateRandomOperator;
     let module = requireSubject('src/generate-problem', 
     {
-      './generate-random-num': generateRandomNum = jasmine.createSpy('generateRandomNum'),
-      './generate-random-operator': generateRandomOperator = jasmine.createSpy('generateRandomOperator')
+      './generate-random': generateRandom = { 
+        num: jasmine.createSpy('generateRandomNum'),
+        operator: jasmine.createSpy('generateRandomOperator')
+      }
     })
-    generateRandomNum.andReturn(5)
-    generateRandomOperator.andReturn('+')
+    generateRandom.num.andReturn(5)
+    generateRandom.operator.andReturn('+')
     let result = module();
   it('should return an object', () => {
     expect(result).toEqual(jasmine.any(Object))
