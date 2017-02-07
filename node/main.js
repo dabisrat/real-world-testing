@@ -1,3 +1,4 @@
 // require('coffee-script')
-require("./app").start("quite");
+var app = require("./app")
+app.start()
 

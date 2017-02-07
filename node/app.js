@@ -1,6 +1,6 @@
-express = require("express")
+const express = require("express")
 
-app = express()
+const app = express()
 
 app.use(express.bodyParser())
 
@@ -14,12 +14,13 @@ app.post ("/solution", (req, res, err) => res.send(501))
 
 module.exports = {
   start: function(quiet) {
-    app.listen(8080, () => {
-      !quiet ? console.log("Now accepting requests at http://localhost:8080") : ''
+    this.server = app.listen(8080, () => {
+      console.log('connect at port 8080')
     });
   },
 
-  stop: () => {
-    app.close()
+  stop: function() {
+    this.server? this.server.close() : console.log('server is undefined')
   }
 }
+
