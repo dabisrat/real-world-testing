@@ -1,6 +1,6 @@
-describe('getProblem', function(){
+describe('getProblem', () => {
   
-  it('should generate,save, and send the problem', function(){
+  it('should generate,save, and send the problem', () => {
     let generateProblem,saveProblem,presentProblem;
     let module = requireSubject('src/get-problem', {
       './generate-problem': generateProblem = jasmine.createSpy('generateProblem'),
@@ -14,7 +14,5 @@ describe('getProblem', function(){
     let result = module()
     expect(result).toEqual('c')
   })
-  
    
-    
 })
