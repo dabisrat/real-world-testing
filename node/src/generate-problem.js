@@ -1,5 +1,6 @@
-const generateRandomNum = require('./generate-random-num')
-const generateRandomOperator = require('./generate-random-operator')
+const generateRandom = require('./generate-random')
+const generateRandomNum = generateRandom.num; 
+const generateRandomOperator = generateRandom.operator; 
 module.exports = () => {
   return {
     id:'',
