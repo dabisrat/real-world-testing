@@ -14,6 +14,6 @@ module.exports = {
       operators[i] = operators[randomIndex]
       operators[randomIndex] = temp
     }
-    return operators[randomIndex]
+    return operators[0]
   }
 }

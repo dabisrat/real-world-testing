@@ -1,73 +1,107 @@
 
+
+
+
+
+
+
+
+
+
+//----------------------------------------- my test -----------------------------------------------
  describe('GET /problem', function(){
-   it('should return object with the agreed apon properties', function(done) {
-     let responseObject, payload;
-     GET('/problem',done, (err, res) => {
-       if (err) console.log('error in request to /problems route', err)
-       responseObject = res
+   let responseObject, payload, end;
+   it('should return an object with the agreed apon properties', function() {
+     runs( () => {
+      end = false;
+      GET('/problem',end, (err, res) => {
+        if (err) console.log('error in request to /problems route', err)
+        responseObject = res
+        end = true
+      })
      })
-     payload = responseObject.json;
-     expect(responseObject.statusCode).toEqual(200)
-     expect(payload.id).toEqual(jasmine.any(Number))
-     expect(payload.operands.left).toEqual(jasmine.any(Number))
-     expect(payload.operands.right).toEqual(jasmine.any(Number))
-     //find the jasmine way of doing this, maybe a custom matcher
-     expect(['+','-','*','/'].includes(payload.operator)).toBe(true)
-     expect(payload.description).toEqual(payload.operands.left + payload.operator + paylaod.operands.righ);
 
+     waitsFor( () => {
+       return end;
+     }, 'test failed due to time out')
+
+     runs( () => {
+      payload = responseObject.json;
+      expect(responseObject.statusCode).toEqual(200)
+      expect(payload.id).toEqual(jasmine.any(Number))
+      expect(payload.operands.left).toEqual(jasmine.any(Number))
+      expect(payload.operands.right).toEqual(jasmine.any(Number))
+       //find the jasmine way of doing this, maybe a custom matcher
+      expect(['+','-','*','/'].includes(payload.operator)).toBe(true)
+      expect(payload.description).toEqual(`${payload.operands.left} ${payload.operator} ${payload.operands.right}`);
+     })
    })
-   // when a request is made  to the end point
-   // we expect an object back with the format
-   /*
-  
-   {
-     id: unquie number,
-     operator: 'some operator',
-     operands: {
-       left: some Number,
-       right: some Number
-     },
-     description: operands.left + operator + operands.right
-   }
-
-   to test this 
-   make a request to the server
-     1. it should generate a random problem. * this needs a unit test
-     2. persist the problem. this needs a unit test
-     3. send the problem to the user. this needs a unit test
-   when it resovles all the steps
-   test the response object 
-   for each of the above properties
-   */
  })
 
+describe("GET /problem/:id", function() {
+  Given(function(done) {
+    return GET("/problem", done, (function(_this) {
+      return function(err, res) {
+        return _this.problem = res.json;
+      };
+    })(this));
+  });
+  When(function(done) {
+    return GET(`/problem/${this.problem.id}`, done, (function(_this) {
+      
+      return function(err, res) {
+        return _this.result = res;
+      };
+    })(this));
+  });
+  return Then(function() {
+    return expect(this.result.json).toEqual(this.problem);
+  });
+});
 
+describe("POST /solution", function() {
+  Given(function(done) {
+    return GET("/problem", done, (function(_this) {
+      return function(err, res) {
+        return _this.problem = res.json;
+      };
+    })(this));
+  });
+  context("a correct answer", function() {
+    Given(function() {
+      return this.solution = {
+        problemId: this.problem.id,
+        answer: eval(this.problem.description)
+      };
+    });
+    When(function(done) {
+      return POST("/solution", this.solution, done, (function(_this) {
+        return function(err, res) {
+          return _this.result = res;
+        };
+      })(this));
+    });
+    return Then(function() {
+      return this.result.statusCode === 202;
+    });
+  });
+  return context("an incorrect answer", function() {
+    Given(function() {
+      return this.solution = {
+        problemId: this.problem.id,
+        answer: eval(this.problem.description) + 1
+      };
+    });
+    When(function(done) {
+      return POST("/solution", this.solution, done, (function(_this) {
+        return function(err, res) {
+          return _this.result = res;
+        };
+      })(this));
+    });
+    return Then(function() {
+      return this.result.statusCode === 422;
+    });
+  });
+});
 
-
-
-
-
-
-
-
-//  // describe "GET /problem/:id", ->
-//  //   Given (done) -> GET "/problem", done, (err, res) => @problem = res.json
-//  //   When (done) -> GET "/problem/{@problem.id}", done, (err, res) => @result = res
-//  //   Then -> expect(@result.json).toEqual(@problem)
-
-//  // describe "POST /solution", ->
-//  //   Given (done) -> GET "/problem", done, (err, res) => @problem = res.json
-
-//  //   context "a correct answer", ->
-//  //     Given -> @solution =
-//  //       problemId: @problem.id
-//  //       answer: eval(@problem.description)
-//  //     When (done) -> POST "/solution", @solution, done, (err, res) => @result = res
-//  //     Then -> @result.statusCode == 202
-
-//  //   context "an incorrect answer", ->
-//  //     Given -> @solution =
-//  //       problemId: @problem.id
-//  //       answer: eval(@problem.description) + 1
-//  //     When (done) -> POST "/solution", @solution, done, (err, res) => @result = res
-//  //     Then -> @result.statusCode == 422

@@ -4,7 +4,7 @@ var app;
 app = require("./../../../app");
 
 beforeEach(function() {
-  return app.start("quietly");
+  return app.start();
 });
 
 afterEach(function() {

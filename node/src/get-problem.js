@@ -1,6 +1,6 @@
 const generateProblem = require('./generate-problem')
-const saveProblem = require('./save-problem')
-const presentProblem = require('./present-problem')
+const func = require('./save-problem')
+const saveProblem = func.saveProblem? func.saveProblem : func 
 module.exports = function() {
- return presentProblem(saveProblem(generateProblem()))
+ return saveProblem(generateProblem())
 }

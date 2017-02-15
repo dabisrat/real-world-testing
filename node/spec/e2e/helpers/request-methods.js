@@ -22,7 +22,7 @@ var request;
 request = require("request");
 
 global.GET = function(path, done, callback) {
-  return request.get("http://localhost:8080" + path, function(err, res) {
+  request.get("http://localhost:8080" + path, function(err, res) {
     var e, error;
     try {
       res.json = JSON.parse(res.body);
@@ -30,7 +30,7 @@ global.GET = function(path, done, callback) {
       e = error;
     }
     callback(err, res);
-    return done();
+    if (typeof done === 'function') {return done()}
   });
 };
 

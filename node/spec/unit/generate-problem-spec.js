@@ -1,4 +1,5 @@
 describe('generateProblem', () => {
+  
     let generateRandomNum, generateRandomOperator;
     let module = requireSubject('src/generate-problem', 
     {
@@ -26,4 +27,5 @@ describe('generateProblem', () => {
   it('should have an operator for the operator property', () => {
     expect(result.operator).toBe('+')
   })
+
 })

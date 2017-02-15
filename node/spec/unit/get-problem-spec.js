@@ -5,14 +5,14 @@ describe('getProblem', () => {
     let module = requireSubject('src/get-problem', {
       './generate-problem': generateProblem = jasmine.createSpy('generateProblem'),
       './save-problem': saveProblem = jasmine.createSpy('saveProblem'),
-      './present-problem': presentProblem = jasmine.createSpy('presentProblem'),
+      // './present-problem': presentProblem = jasmine.createSpy('presentProblem'),
     })
     generateProblem.andReturn('a')
     saveProblem.when('a').thenReturn('b')
-    presentProblem.when('b').thenReturn('c')
+    // presentProblem.when('b').thenReturn('c')
 
     let result = module()
-    expect(result).toEqual('c')
+    expect(result).toEqual('b')
   })
    
 })

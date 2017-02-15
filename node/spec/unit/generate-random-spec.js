@@ -24,7 +24,6 @@ describe('generateRandom', () => {
     const result = generateRandomOperator()
     it('should generate a random operator', () => {
       const operators = [...Array(100)].map(generateRandomOperator)
-      console.log(operators)
       expect(operators.includes('-')).toBe(true)
       expect(operators.includes('+')).toBe(true)
       expect(operators.includes('/')).toBe(true)
